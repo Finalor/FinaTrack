@@ -1,9 +1,8 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
-    <MudNavGroup Title="Settings" Expanded="true">
-        <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
-        <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
+﻿@using MudBlazor
+
+<MudNavMenu Class="mud-width-full">
+    <MudNavGroup Title="Trackers" Icon="@Icons.Material.Filled.VideogameAsset" Expanded="false">
+        <MudNavLink Href="/Trackers/OotS8" Icon="@Icons.Material.Filled.Filter8">OOT S8</MudNavLink>
     </MudNavGroup>
-    <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+    <MudNavLink Href="/Documentation" Icon="@Icons.Material.Filled.Book">Documentation</MudNavLink>
 </MudNavMenu>

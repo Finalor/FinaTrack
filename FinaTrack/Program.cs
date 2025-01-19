@@ -1,4 +1,4 @@
-using FinaTrack.Components;
+using FinaTrack.Components.Shared;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);

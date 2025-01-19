@@ -1,0 +1,28 @@
+@page "/Trackers/OotS8"
+
+@using MudBlazor
+
+@* Titre du tracker *@
+<MudCard Class="mud-width-full">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h4">OOT S8</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+</MudCard>
+
+@* Tracker d'item, 1/4 de l'écran *@
+<MudItem xs="4" sm="4">
+    <MudPaper Elevation="2" Class="mud-height-full mt-3 ml-3 item-tracker-height">
+        
+    </MudPaper>
+</MudItem>
+
+
+
+<style>
+    /* Hauteur du tracker d'item */
+    .item-tracker-height{
+        height: calc(100vh - 160px);
+    }
+</style>

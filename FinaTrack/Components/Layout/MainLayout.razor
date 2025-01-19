@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using MudBlazor
 
 <MudThemeProvider IsDarkMode="true"/> <!-- Fournit la configuration de thème pour les composants MudBlazor -->
 <MudPopoverProvider/> <!-- Gère les composants popover, permettant d'afficher des info-bulles, menus déroulants, etc. -->
@@ -6,32 +7,33 @@
 <MudSnackbarProvider/> <!-- Fournit des notifications snackbar pour des messages brefs ou des alertes -->
 
 <MudLayout>
-    <MudAppBar>
+    <MudAppBar Elevation="1">
+        <!-- Bouton pour basculer le menu -->
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                       OnClick="@(_ => DrawerToggle())"/>
-        FinaTrack
+                       OnClick="@((e) => DrawerToggle())"/>
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu/>
+    <MudDrawer @bind-Open="_drawerOpen">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h5" Class="mt-1">FinaTrack</MudText> <!-- En-tête du menu -->
+        </MudDrawerHeader>
+        <NavMenu/> <!-- Menu de navigation -->
     </MudDrawer>
     <MudMainContent>
-        @Body
+        @Body <!-- Contenu principal de la page -->
     </MudMainContent>
 </MudLayout>
 
 @code {
-
     /// <summary>
-    /// État du menu (ouvert ou fermé).
+    /// Indique si le menu est ouvert ou fermé.
     /// </summary>
     bool _drawerOpen = true;
 
     /// <summary>
-    /// Basculer l'état du menu entre ouvert et fermé.
+    /// Permet de fermer ou d'ouvrir le menu.
     /// </summary>
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
-
 }
