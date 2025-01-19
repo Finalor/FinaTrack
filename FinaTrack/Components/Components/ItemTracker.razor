@@ -1,0 +1,111 @@
+﻿@using MudBlazor
+@using System.Text.Json
+@using FinaTrack.Components.Class
+
+<MudItem xs="4" sm="4">
+    <MudPaper Elevation="2" Class="mud-height-full mt-3 ml-3 item-tracker-height">
+    </MudPaper>
+</MudItem>
+
+<style>
+    /* Hauteur du tracker d'item */
+    .item-tracker-height {
+        height: calc(100vh - 160px);
+    }
+</style>
+
+@code {
+    /// <summary>
+    /// Définir un contenu optionnel (RenderFragment) à intégrer dans le tracker.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Lien permettant d'importer un fichier JSON depuis une URL.
+    /// Exemple : "https://exemple.com/fichier.json".
+    /// </summary>
+    [Parameter]
+    public string JsonFileUrl { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Contient la disposition des items après le chargement du JSON.
+    /// </summary>
+    private ItemTrackerLayout? _trackerLayout;
+
+    /// <summary>
+    /// Méthode appelée lors de l'initialisation du composant.
+    /// Elle vérifie si une URL JSON est fournie et charge les données correspondantes.
+    /// </summary>
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(JsonFileUrl))
+        {
+            await LoadItemsFromJson(JsonFileUrl);
+        }
+    }
+    
+/// <summary>
+/// Charge les données du fichier JSON spécifié et crée une instance d'ItemTrackerLayout.
+/// </summary>
+/// <param name="jsonFilePath">Le chemin ou l'URL du fichier JSON à lire.</param>
+/// <returns>Une tâche asynchrone qui charge et initialise les items dans le layout.</returns>
+private async Task LoadItemsFromJson(string jsonFilePath)
+{
+    try
+    {
+        // Lire le contenu du fichier JSON sous forme de chaîne
+        var json = await File.ReadAllTextAsync(jsonFilePath);
+
+        // Charger les données JSON en tant que document JSON
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        // Vérifie si la propriété "Items" existe dans le JSON
+        if (root.TryGetProperty("Items", out var itemsJson))
+        {
+            // Liste pour stocker les items désérialisés
+            var items = new List<ItemLayout>();
+
+            // Parcours de tous les items dans le tableau JSON
+            foreach (var itemJson in itemsJson.EnumerateArray())
+            {
+                // Création d'un nouvel item avec les propriétés spécifiques
+                var item = new ItemLayout
+                {
+                    Type = itemJson.GetProperty("Type").GetString() ?? string.Empty, // Type de l'item
+                    Position = itemJson.TryGetProperty("Position", out var positionElement)
+                        ? JsonSerializer.Deserialize<Class.Position>(positionElement.GetRawText()) ?? new Class.Position()
+                        : new Class.Position(), // Position dans la grille
+                    ImagePath = itemJson.TryGetProperty("ImagePath", out var imagePathElement)
+                        ? imagePathElement.GetString()
+                        : null, // Chemin de l'image (peut être null)
+                    GreyImagePath = itemJson.TryGetProperty("GreyImagePath", out var greyImagePathElement)
+                        ? greyImagePathElement.GetString()
+                        : null, // Chemin de l'image désactivée (peut être null)
+                    IsActive = false // Défini à false par défaut
+                };
+
+                items.Add(item); // Ajoute l'item à la liste
+            }
+
+            // Initialisation de l'ItemTrackerLayout avec les données chargées
+            _trackerLayout = new ItemTrackerLayout
+            {
+                NbColonne = root.GetProperty("NbColonne").GetInt32(), // Nombre de colonnes dans la grille
+                NbLigne = root.GetProperty("NbLigne").GetInt32(), // Nombre de lignes dans la grille
+                Items = items // Liste des items
+            };
+        }
+        else
+        {
+            Console.WriteLine("Aucune propriété Items trouvée dans le fichier JSON.");
+        }
+    }
+    catch (Exception ex)
+    {
+        // Gestion et affichage des erreurs en cas de problèmes lors de la lecture ou de la deserialization
+        Console.WriteLine($"Erreur lors de la lecture du JSON : {ex.Message}");
+    }
+}
+}

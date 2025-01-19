@@ -1,0 +1,77 @@
+﻿@using FinaTrack.Components.Class
+
+<div class="item-container">
+    @switch (ItemData.Type)
+    {
+        case "Path":
+        case "Indice":
+        case "Barren":
+            
+            break;
+
+        case "Item":
+            
+            break;
+
+        case "ItemIndice":
+            
+            break;
+
+        case "Chant":
+            
+            break;
+
+        case "Goal":
+            
+            break;
+
+        default:
+            <p>Type non reconnu : @ItemData.Type</p>
+            break;
+    }
+</div>
+
+@* Style personnalisé du composant *@
+<style>
+    .item-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    .item-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .item-dropdown {
+        width: 100%;
+    }
+</style>
+
+@code {
+
+    /// <summary>
+    /// Données de l'item.
+    /// </summary>
+    [Parameter]
+    public required ItemLayout ItemData { get; set; }
+    
+    /// <summary>
+    /// Retourne la classe CSS selon le type d'item.
+    /// </summary>
+    /// <returns>Une chaîne contenant la classe CSS.</returns>
+    private string GetImageClass()
+    {
+        return ItemData.Type switch
+        {
+            "Path" => "item-dropdown",
+            "Indice" => "item-dropdown",
+            "Barren" => "item-dropdown",
+            _ => "item-image"
+        };
+    }
+}
