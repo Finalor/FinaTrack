@@ -2,15 +2,58 @@
 @using System.Text.Json
 @using FinaTrack.Components.Class
 
-<MudItem xs="4" sm="4">
-    <MudPaper Elevation="2" Class="mud-height-full mt-3 ml-3 item-tracker-height">
-    </MudPaper>
-</MudItem>
+<MudGrid Class="full-height-width mt-0 ml-0">
+    <MudItem xs="4" Class="tracker-column">
+        <MudPaper Class="tracker-layout-paper">
+            <MudGrid Class="tracker-layout" Spacing="2">
+                @if (_trackerLayout?.Items != null)
+                {
+                    foreach (var item in _trackerLayout.Items)
+                    {
+                        if (item.Position != null)
+                        {
+                            <MudItem xs="1" Style="@GetItemStyle(item.Position)">
+
+                            </MudItem>
+                        }
+                    }
+                }
+                else
+                {
+                    <MudText>Chargement des items...</MudText>
+                }
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="8">
+        <!-- Place pour d'autres contenus -->
+    </MudItem>
+</MudGrid>
 
 <style>
-    /* Hauteur du tracker d'item */
-    .item-tracker-height {
-        height: calc(100vh - 160px);
+    .full-height-width {
+        height: calc(100vh - 160px); /* Toute la hauteur de l'écran */
+        width: 100%;
+    }
+
+    .tracker-column {
+        height: 100%;
+        overflow: hidden; /* Empêche le scrollbar */
+    }
+
+    .tracker-layout {
+        display: grid;
+        height: 100%;
+        width: 100%;
+        grid-template-columns: repeat(12, 1fr); /* Nombre de colonnes basé sur le JSON */
+        grid-template-rows: repeat(20, 1fr); /* Nombre de lignes basé sur le JSON */
+    }
+
+    .tracker-layout-paper {
+        display: grid;
+        height: 100%;
+        width: 100%;
     }
 </style>
 
@@ -45,67 +88,77 @@
         }
     }
     
-/// <summary>
-/// Charge les données du fichier JSON spécifié et crée une instance d'ItemTrackerLayout.
-/// </summary>
-/// <param name="jsonFilePath">Le chemin ou l'URL du fichier JSON à lire.</param>
-/// <returns>Une tâche asynchrone qui charge et initialise les items dans le layout.</returns>
-private async Task LoadItemsFromJson(string jsonFilePath)
-{
-    try
+    /// <summary>
+    /// Charge les données du fichier JSON spécifié et crée une instance d'ItemTrackerLayout.
+    /// </summary>
+    /// <param name="jsonFilePath">Le chemin ou l'URL du fichier JSON à lire.</param>
+    /// <returns>Une tâche asynchrone qui charge et initialise les items dans le layout.</returns>
+    private async Task LoadItemsFromJson(string jsonFilePath)
     {
-        // Lire le contenu du fichier JSON sous forme de chaîne
-        var json = await File.ReadAllTextAsync(jsonFilePath);
-
-        // Charger les données JSON en tant que document JSON
-        using var doc = JsonDocument.Parse(json);
-        var root = doc.RootElement;
-
-        // Vérifie si la propriété "Items" existe dans le JSON
-        if (root.TryGetProperty("Items", out var itemsJson))
+        try
         {
-            // Liste pour stocker les items désérialisés
-            var items = new List<ItemLayout>();
+            // Lire le contenu du fichier JSON sous forme de chaîne
+            var json = await File.ReadAllTextAsync(jsonFilePath);
 
-            // Parcours de tous les items dans le tableau JSON
-            foreach (var itemJson in itemsJson.EnumerateArray())
+            // Charger les données JSON en tant que document JSON
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+
+            // Vérifie si la propriété "Items" existe dans le JSON
+            if (root.TryGetProperty("Items", out var itemsJson))
             {
-                // Création d'un nouvel item avec les propriétés spécifiques
-                var item = new ItemLayout
+                // Liste pour stocker les items désérialisés
+                var items = new List<ItemLayout>();
+
+                // Parcours de tous les items dans le tableau JSON
+                foreach (var itemJson in itemsJson.EnumerateArray())
                 {
-                    Type = itemJson.GetProperty("Type").GetString() ?? string.Empty, // Type de l'item
-                    Position = itemJson.TryGetProperty("Position", out var positionElement)
-                        ? JsonSerializer.Deserialize<Class.Position>(positionElement.GetRawText()) ?? new Class.Position()
-                        : new Class.Position(), // Position dans la grille
-                    ImagePath = itemJson.TryGetProperty("ImagePath", out var imagePathElement)
-                        ? imagePathElement.GetString()
-                        : null, // Chemin de l'image (peut être null)
-                    GreyImagePath = itemJson.TryGetProperty("GreyImagePath", out var greyImagePathElement)
-                        ? greyImagePathElement.GetString()
-                        : null, // Chemin de l'image désactivée (peut être null)
-                    IsActive = false // Défini à false par défaut
+                    // Création d'un nouvel item avec les propriétés spécifiques
+                    var item = new ItemLayout
+                    {
+                        Type = itemJson.GetProperty("Type").GetString() ?? string.Empty, // Type de l'item
+                        Position = itemJson.TryGetProperty("Position", out var positionElement)
+                            ? JsonSerializer.Deserialize<Class.Position>(positionElement.GetRawText()) ?? new Class.Position()
+                            : new Class.Position(), // Position dans la grille
+                        ImagePath = itemJson.TryGetProperty("ImagePath", out var imagePathElement)
+                            ? imagePathElement.GetString()
+                            : null, // Chemin de l'image (peut être null)
+                        GreyImagePath = itemJson.TryGetProperty("GreyImagePath", out var greyImagePathElement)
+                            ? greyImagePathElement.GetString()
+                            : null, // Chemin de l'image désactivée (peut être null)
+                        IsActive = false // Défini à false par défaut
+                    };
+
+                    items.Add(item); // Ajoute l'item à la liste
+                }
+
+                // Initialisation de l'ItemTrackerLayout avec les données chargées
+                _trackerLayout = new ItemTrackerLayout
+                {
+                    NbColonne = root.GetProperty("NbColonne").GetInt32(), // Nombre de colonnes dans la grille
+                    NbLigne = root.GetProperty("NbLigne").GetInt32(), // Nombre de lignes dans la grille
+                    Items = items // Liste des items
                 };
-
-                items.Add(item); // Ajoute l'item à la liste
             }
-
-            // Initialisation de l'ItemTrackerLayout avec les données chargées
-            _trackerLayout = new ItemTrackerLayout
+            else
             {
-                NbColonne = root.GetProperty("NbColonne").GetInt32(), // Nombre de colonnes dans la grille
-                NbLigne = root.GetProperty("NbLigne").GetInt32(), // Nombre de lignes dans la grille
-                Items = items // Liste des items
-            };
+                Console.WriteLine("Aucune propriété Items trouvée dans le fichier JSON.");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Aucune propriété Items trouvée dans le fichier JSON.");
+            // Gestion et affichage des erreurs en cas de problèmes lors de la lecture ou de la deserialization
+            Console.WriteLine($"Erreur lors de la lecture du JSON : {ex.Message}");
         }
     }
-    catch (Exception ex)
+
+    /// <summary>
+    /// Génère le style CSS pour positionner un item dans la grille.
+    /// </summary>
+    /// <param name="position">Position de l'item dans la grille.</param>
+    /// <returns>Une chaîne de style CSS pour positionner l'élément.</returns>
+    private string GetItemStyle(Class.Position position)
     {
-        // Gestion et affichage des erreurs en cas de problèmes lors de la lecture ou de la deserialization
-        Console.WriteLine($"Erreur lors de la lecture du JSON : {ex.Message}");
+        return $"grid-row: {position.Row}; grid-column: {position.Column};";
     }
-}
 }
