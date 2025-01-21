@@ -1,12 +1,13 @@
 ﻿{
   "Name": "OOT S8",
-  "NbColonne": 10,
+  "NbColonne": 12,
   "NbLigne": 20,
   "Items": [
     {
       "Type": "Item",
       "Position": { "Row": 1, "Column": 1 },
-      "ImagePath": "FinaTrack/wwwroot/images/Items/ExampleItem.png"
+      "ImagePath": "images/C-Items/Bomb.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Bomb.png"
     },
     {
       "Type": "Indice",
@@ -15,17 +16,17 @@
     {
       "Type": "ItemIndice",
       "Position": { "Row": 2, "Column": 3 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "Chant",
       "Position": { "Row": 3, "Column": 1 },
-      "ImagePath": "FinaTrack/wwwroot/images/Items/Song.png"
+      "ImagePath": "images/Items/Song.png"
     },
     {
       "Type": "Goal",
       "Position": { "Row": 4, "Column": 1 },
-      "ImagePath": "FinaTrack/wwwroot/images/Items/Medallion.png"
+      "ImagePath": "images/Items/Medallion.png"
     },
     {
       "Type": "Path",
@@ -34,27 +35,27 @@
     {
       "Type": "ItemIndice",
       "Position": { "Row": 5, "Column": 3 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "ItemIndice",
       "Position": { "Row": 5, "Column": 4 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "ItemIndice",
       "Position": { "Row": 5, "Column": 5 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "ItemIndice",
       "Position": { "Row": 5, "Column": 6 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "ItemIndice",
       "Position": { "Row": 5, "Column": 7 },
-      "ImagePath": "FinaTrack/wwwroot/images/Miscellaneous/Gossip-Stone.png"
+      "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "Barren",

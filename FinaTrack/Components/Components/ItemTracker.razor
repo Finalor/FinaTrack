@@ -5,22 +5,32 @@
 <MudGrid Class="full-height-width mt-0 ml-0">
     <MudItem xs="4" Class="tracker-column">
         <MudPaper Class="tracker-layout-paper">
-            <MudGrid Class="tracker-layout" Spacing="2">
+            <MudGrid Class="tracker-layout pt-4 pl-4" Spacing="2">
                 @if (_trackerLayout?.Items != null)
                 {
-                    foreach (var item in _trackerLayout.Items)
+                    for (var row = 1; row <= 20; row++)
                     {
-                        if (item.Position != null)
+                        for (var column = 1; column <= 12; column++)
                         {
-                            <MudItem xs="1" Style="@GetItemStyle(item.Position)">
-
-                            </MudItem>
+                            var matchingItem = _trackerLayout.Items.FirstOrDefault(item => item.Position?.Row == row && item.Position?.Column == column);
+                
+                            if (matchingItem != null)
+                            {
+                                <Item ItemData="@matchingItem"/>
+                                
+                                if (matchingItem.Type is "Path" or "Indice" or "Barren")
+                                    column += 4;
+                            }
+                            else
+                            {
+                                <MudItem xs="1"></MudItem>
+                            }
                         }
                     }
                 }
                 else
                 {
-                    <MudText>Chargement des items...</MudText>
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Large"/>
                 }
             </MudGrid>
         </MudPaper>
@@ -139,6 +149,8 @@
                     NbLigne = root.GetProperty("NbLigne").GetInt32(), // Nombre de lignes dans la grille
                     Items = items // Liste des items
                 };
+                
+                StateHasChanged();
             }
             else
             {

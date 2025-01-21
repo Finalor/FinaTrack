@@ -1,6 +1,7 @@
 ﻿@using FinaTrack.Components.Class
+@using MudBlazor
 
-<div class="item-container">
+<MudItem xs="1" Style="max-width: 100%;">
     @switch (ItemData.Type)
     {
         case "Path":
@@ -10,7 +11,16 @@
             break;
 
         case "Item":
-            
+            <MudButton Class="circular-button" OnClick="OnItemClick">
+                @if (IsActif)
+                {
+                    <MudImage Src="@ItemData.ImagePath" Alt="Active Item" Style="width: 100%; height: 100%; border-radius: 50%;" />
+                }
+                else
+                {
+                    <MudImage Src="@ItemData.GreyImagePath" Alt="Inactive Item" Style="width: 100%; height: 100%; border-radius: 50%;" />
+                }
+            </MudButton>
             break;
 
         case "ItemIndice":
@@ -26,52 +36,42 @@
             break;
 
         default:
-            <p>Type non reconnu : @ItemData.Type</p>
             break;
     }
-</div>
+</MudItem>
 
 @* Style personnalisé du composant *@
 <style>
-    .item-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px;
-        height: 50px;
-    }
-
-    .item-image {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-
-    .item-dropdown {
+    .circular-button {
+        border-radius: 50%;
+        padding: 0;
         width: 100%;
+        height: 100%;
     }
 </style>
 
 @code {
-
     /// <summary>
-    /// Données de l'item.
+    /// Données de l'item utilisées pour l'affichage dans l'interface.
+    /// Contient des informations telles que le type, les images associées, etc.
     /// </summary>
     [Parameter]
     public required ItemLayout ItemData { get; set; }
     
     /// <summary>
-    /// Retourne la classe CSS selon le type d'item.
+    /// Indique si l'item est actif ou non.
+    /// Si actif, une image spécifique sera affichée.
     /// </summary>
-    /// <returns>Une chaîne contenant la classe CSS.</returns>
-    private string GetImageClass()
+    [Parameter]
+    public required bool IsActif { get; set; }
+
+    /// <summary>
+    /// Méthode appelée lorsque l'utilisateur clique sur un item.
+    /// Cette méthode permet de basculer l'état de l'item entre actif et inactif.
+    /// </summary>
+    private void OnItemClick()
     {
-        return ItemData.Type switch
-        {
-            "Path" => "item-dropdown",
-            "Indice" => "item-dropdown",
-            "Barren" => "item-dropdown",
-            _ => "item-image"
-        };
+        // Change l'état de l'élément (actif/inactif).
+        IsActif = !IsActif;
     }
 }
