@@ -1,7 +1,7 @@
 ﻿@using FinaTrack.Components.Class
 @using MudBlazor
 
-<MudItem Style="max-width: 100%;">
+<MudItem Class="itemShape">
     @switch (ItemData.Type)
     {
         case "Path":
@@ -11,7 +11,7 @@
             break;
 
         case "Item":
-            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+            <MudButton OnClick="OnItemClick" Class="backgroundButton itemShape">
                 @if (ItemData.IsActive == 1)
                 {
                     <MudImage Src="@ItemData.ImagePath" Alt="Active Item" Style="width: 100%; height: 100%; border-radius: 50%;"/>
@@ -24,7 +24,7 @@
             break;
 
         case "Item2":
-            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+            <MudButton OnClick="OnItemClick" Class="backgroundButton itemShape">
                 @switch (ItemData.IsActive)
                 {
                     case 1:
@@ -41,7 +41,7 @@
             break;
 
         case "Item3":
-            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+            <MudButton OnClick="OnItemClick" Class="backgroundButton itemShape">
                 @switch (ItemData.IsActive)
                 {
                     case 1:
@@ -80,6 +80,12 @@
 <style>
     .backgroundButton {
         background-color: rgba(39, 39, 47, 1);
+    }
+    
+    .itemShape{
+        width: 64px; 
+        height: 64px; 
+        margin: 0px;
     }
 </style>
 

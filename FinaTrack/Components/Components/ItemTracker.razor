@@ -5,12 +5,12 @@
 <MudGrid Class="full-height-width mt-0 ml-0">
     <MudItem xs="4" Class="tracker-column">
         @{
-            <MudGrid Spacing="2">
+            <MudGrid >
                 @if (_trackerLayout?.Items != null)
                 {
                     foreach (var item in _trackerLayout!.Items)
                     {
-                        <MudItem xs="3">
+                        <MudItem xs="2">
                             <Item ItemData="@item"/>
                         </MudItem>
                     }
