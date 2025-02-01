@@ -1,38 +1,75 @@
 ﻿@using FinaTrack.Components.Class
 @using MudBlazor
 
-<MudItem xs="1" Style="max-width: 100%;">
+<MudItem Style="max-width: 100%;">
     @switch (ItemData.Type)
     {
         case "Path":
         case "Indice":
         case "Barren":
-            
+
             break;
 
         case "Item":
-            <MudButton Class="circular-button" OnClick="OnItemClick">
-                @if (IsActif)
+            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+                @if (ItemData.IsActive == 1)
                 {
-                    <MudImage Src="@ItemData.ImagePath" Alt="Active Item" Style="width: 100%; height: 100%; border-radius: 50%;" />
+                    <MudImage Src="@ItemData.ImagePath" Alt="Active Item" Style="width: 100%; height: 100%; border-radius: 50%;"/>
                 }
                 else
                 {
-                    <MudImage Src="@ItemData.GreyImagePath" Alt="Inactive Item" Style="width: 100%; height: 100%; border-radius: 50%;" />
+                    <MudImage Src="@ItemData.GreyImagePath" Alt="Inactive Item" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                }
+            </MudButton>
+            break;
+
+        case "Item2":
+            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+                @switch (ItemData.IsActive)
+                {
+                    case 1:
+                        <MudImage Src="@ItemData.ImagePath" Alt="First Active State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                    case 2:
+                        <MudImage Src="@ItemData.ImagePath2" Alt="Second Active State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                    default:
+                        <MudImage Src="@ItemData.GreyImagePath" Alt="Inactive Item" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                }
+            </MudButton>
+            break;
+
+        case "Item3":
+            <MudButton OnClick="OnItemClick" Class="backgroundButton">
+                @switch (ItemData.IsActive)
+                {
+                    case 1:
+                        <MudImage Src="@ItemData.ImagePath" Alt="First Active State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                    case 2:
+                        <MudImage Src="@ItemData.ImagePath2" Alt="Second Active State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                    case 3:
+                        <MudImage Src="@ItemData.ImagePath3" Alt="Third Active State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
+                    default:
+                        <MudImage Src="@ItemData.GreyImagePath" Alt="Inactive State" Style="width: 100%; height: 100%; border-radius: 50%;"/>
+                        break;
                 }
             </MudButton>
             break;
 
         case "ItemIndice":
-            
+
             break;
 
         case "Chant":
-            
+
             break;
 
         case "Goal":
-            
+
             break;
 
         default:
@@ -40,13 +77,9 @@
     }
 </MudItem>
 
-@* Style personnalisé du composant *@
 <style>
-    .circular-button {
-        border-radius: 50%;
-        padding: 0;
-        width: 100%;
-        height: 100%;
+    .backgroundButton {
+        background-color: rgba(39, 39, 47, 1);
     }
 </style>
 
@@ -57,13 +90,6 @@
     /// </summary>
     [Parameter]
     public required ItemLayout ItemData { get; set; }
-    
-    /// <summary>
-    /// Indique si l'item est actif ou non.
-    /// Si actif, une image spécifique sera affichée.
-    /// </summary>
-    [Parameter]
-    public required bool IsActif { get; set; }
 
     /// <summary>
     /// Méthode appelée lorsque l'utilisateur clique sur un item.
@@ -71,7 +97,28 @@
     /// </summary>
     private void OnItemClick()
     {
-        // Change l'état de l'élément (actif/inactif).
-        IsActif = !IsActif;
+        ItemData.IsActive = ItemData.Type switch
+        {
+            // Change l'état de l'élément (actif/inactif) si le type est Item.
+            "Item" => ItemData.IsActive == 1 ? 0 : 1,
+            // Change l'état de l'élément si le type est Item2.
+            "Item2" => ItemData.IsActive switch
+            {
+                0 => 1,
+                1 => 2,
+                2 => 0,
+                _ => 0 // Renvoyer ZÉRO par défaut si une autre valeur existe.
+            },
+            // Change l'état de l'élément si le type est Item3.
+            "Item3" => ItemData.IsActive switch
+            {
+                0 => 1,
+                1 => 2,
+                2 => 3,
+                3 => 0,
+                _ => 0 // Renvoyer ZÉRO par défaut si une autre valeur existe.
+            },
+            _ => ItemData.IsActive
+        };
     }
 }

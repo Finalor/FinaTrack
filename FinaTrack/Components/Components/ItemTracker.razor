@@ -4,36 +4,19 @@
 
 <MudGrid Class="full-height-width mt-0 ml-0">
     <MudItem xs="4" Class="tracker-column">
-        <MudPaper Class="tracker-layout-paper">
-            <MudGrid Class="tracker-layout pt-4 pl-4" Spacing="2">
+        @{
+            <MudGrid Spacing="2">
                 @if (_trackerLayout?.Items != null)
                 {
-                    for (var row = 1; row <= 20; row++)
+                    foreach (var item in _trackerLayout!.Items)
                     {
-                        for (var column = 1; column <= 12; column++)
-                        {
-                            var matchingItem = _trackerLayout.Items.FirstOrDefault(item => item.Position?.Row == row && item.Position?.Column == column);
-                
-                            if (matchingItem != null)
-                            {
-                                <Item ItemData="@matchingItem"/>
-                                
-                                if (matchingItem.Type is "Path" or "Indice" or "Barren")
-                                    column += 4;
-                            }
-                            else
-                            {
-                                <MudItem xs="1"></MudItem>
-                            }
-                        }
+                        <MudItem xs="3">
+                            <Item ItemData="@item"/>
+                        </MudItem>
                     }
                 }
-                else
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Large"/>
-                }
             </MudGrid>
-        </MudPaper>
+        }
     </MudItem>
 
     <MudItem xs="8">
@@ -51,23 +34,10 @@
         height: 100%;
         overflow: hidden; /* Empêche le scrollbar */
     }
-
-    .tracker-layout {
-        display: grid;
-        height: 100%;
-        width: 100%;
-        grid-template-columns: repeat(12, 1fr); /* Nombre de colonnes basé sur le JSON */
-        grid-template-rows: repeat(20, 1fr); /* Nombre de lignes basé sur le JSON */
-    }
-
-    .tracker-layout-paper {
-        display: grid;
-        height: 100%;
-        width: 100%;
-    }
 </style>
 
 @code {
+
     /// <summary>
     /// Définir un contenu optionnel (RenderFragment) à intégrer dans le tracker.
     /// </summary>
@@ -80,7 +50,7 @@
     /// </summary>
     [Parameter]
     public string JsonFileUrl { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Contient la disposition des items après le chargement du JSON.
     /// </summary>
@@ -97,7 +67,7 @@
             await LoadItemsFromJson(JsonFileUrl);
         }
     }
-    
+
     /// <summary>
     /// Charge les données du fichier JSON spécifié et crée une instance d'ItemTrackerLayout.
     /// </summary>
@@ -133,10 +103,16 @@
                         ImagePath = itemJson.TryGetProperty("ImagePath", out var imagePathElement)
                             ? imagePathElement.GetString()
                             : null, // Chemin de l'image (peut être null)
+                        ImagePath2 = itemJson.TryGetProperty("ImagePath2", out var imagePath2Element)
+                            ? imagePath2Element.GetString()
+                            : null, // Chemin de l'image (peut être null)
+                        ImagePath3 = itemJson.TryGetProperty("ImagePath3", out var imagePath3Element)
+                            ? imagePath3Element.GetString()
+                            : null, // Chemin de l'image (peut être null)
                         GreyImagePath = itemJson.TryGetProperty("GreyImagePath", out var greyImagePathElement)
                             ? greyImagePathElement.GetString()
                             : null, // Chemin de l'image désactivée (peut être null)
-                        IsActive = false // Défini à false par défaut
+                        IsActive = 0 // Défini à false par défaut
                     };
 
                     items.Add(item); // Ajoute l'item à la liste
@@ -149,7 +125,7 @@
                     NbLigne = root.GetProperty("NbLigne").GetInt32(), // Nombre de lignes dans la grille
                     Items = items // Liste des items
                 };
-                
+
                 StateHasChanged();
             }
             else
@@ -162,15 +138,5 @@
             // Gestion et affichage des erreurs en cas de problèmes lors de la lecture ou de la deserialization
             Console.WriteLine($"Erreur lors de la lecture du JSON : {ex.Message}");
         }
-    }
-
-    /// <summary>
-    /// Génère le style CSS pour positionner un item dans la grille.
-    /// </summary>
-    /// <param name="position">Position de l'item dans la grille.</param>
-    /// <returns>Une chaîne de style CSS pour positionner l'élément.</returns>
-    private string GetItemStyle(Class.Position position)
-    {
-        return $"grid-row: {position.Row}; grid-column: {position.Column};";
     }
 }

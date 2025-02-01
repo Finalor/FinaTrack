@@ -19,6 +19,16 @@ public class ItemLayout
     /// Chemin d'accès à l'image associée à l'item.
     /// </summary>
     public string? ImagePath { get; set; }
+    
+    /// <summary>
+    /// Chemin d'accès à l'image associée à l'item.
+    /// </summary>
+    public string? ImagePath2 { get; set; }
+    
+    /// <summary>
+    /// Chemin d'accès à l'image associée à l'item.
+    /// </summary>
+    public string? ImagePath3 { get; set; }
 
     /// <summary>
     /// Chemin d'accès à l'image grisée associée à l'item (pour usage désactivé).
@@ -36,7 +46,7 @@ public class ItemLayout
     public string? ItemAssociated { get; set; }
 
     /// <summary>
-    /// Indique si l'item est actif (true) ou non (false).
+    /// Indique si l'item est actif (true → 1, 2 ou 3) ou non (false → 0).
     /// </summary>
-    public bool IsActive { get; set; } = false;
+    public int IsActive { get; set; } = 0;
 }

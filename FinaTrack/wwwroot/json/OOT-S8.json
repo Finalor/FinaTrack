@@ -6,21 +6,126 @@
     {
       "Type": "Item",
       "Position": { "Row": 1, "Column": 1 },
+      "ImagePath": "images/C-Items/Deku-Nut.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Deku-Nut.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 2 },
+      "ImagePath": "images/C-Items/Deku-Stick.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Deku-Stick.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 3 },
+      "ImagePath": "images/C-Items/Fairy-Slingshot.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Fairy-Slingshot.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 4 },
+      "ImagePath": "images/C-Items/Boomerang.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Boomerang.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 5 },
       "ImagePath": "images/C-Items/Bomb.png",
       "GreyImagePath": "images/C-Items/(Grayscale)/Bomb.png"
     },
     {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 6 },
+      "ImagePath": "images/C-Items/Bombchu.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Bombchu.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 7 },
+      "ImagePath": "images/C-Items/Megaton-Hammer.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Megaton-Hammer.png"
+    },
+    {
+      "Type": "Item2",
+      "Position": { "Row": 1, "Column": 8 },
+      "ImagePath": "images/C-Items/Hookshot.png",
+      "ImagePath2": "images/C-Items/Longshot.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Hookshot.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 9 },
+      "ImagePath": "images/C-Items/Fairy-Bow.png",
+      "GreyImagePath": "images/C-Items/(Grayscale)/Fairy-Bow.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 1, "Column": 10 },
+      "ImagePath": "images/C-Items/Magic/Lens-of-Truth.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Lens-of-Truth.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 1 },
+      "ImagePath": "images/C-Items/Magic/Din-Fire.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Din-Fire.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 2 },
+      "ImagePath": "images/C-Items/Magic/Farore-Wind.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Farore-Wind.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 3 },
+      "ImagePath": "images/C-Items/Magic/Fire-Arrow.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Fire-Arrow.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 4 },
+      "ImagePath": "images/C-Items/Magic/Ice-Arrow.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Ice-Arrow.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 5 },
+      "ImagePath": "images/C-Items/Magic/Light-Arrow.png",
+      "GreyImagePath": "images/C-Items/Magic/(Grayscale)/Light-Arrow.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 7 },
+      "ImagePath": "images/C-Items/Bottles/Letter.png",
+      "GreyImagePath": "images/C-Items/Bottles/(Grayscale)/Letter.png"
+    },
+    {
+      "Type": "Item",
+      "Position": { "Row": 2, "Column": 8 },
+      "ImagePath": "images/C-Items/Bottles/Empty-Bottle.png",
+      "GreyImagePath": "images/C-Items/Bottles/(Grayscale)/Bottle.png"
+    },
+    {
+      "Type": "Item3",
+      "Position": { "Row": 2, "Column": 10 },
+      "ImagePath": "images/Inventory/Goron-Bracelet.png",
+      "ImagePath2": "images/Inventory/Silver-Gauntlets.png",
+      "ImagePath3": "images/Inventory/Golden-Gauntlets.png",
+      "GreyImagePath": "images/Inventory/(Grayscale)/Strength.png"
+    },
+    {
       "Type": "Indice",
-      "Position": { "Row": 2, "Column": 1 }
+      "Position": { "Row": 7, "Column": 1 }
     },
     {
       "Type": "ItemIndice",
-      "Position": { "Row": 2, "Column": 3 },
+      "Position": { "Row": 7, "Column": 3 },
       "ImagePath": "images/Miscellaneous/Gossip-Stone.png"
     },
     {
       "Type": "Chant",
-      "Position": { "Row": 3, "Column": 1 },
+      "Position": { "Row": 8, "Column": 1 },
       "ImagePath": "images/Items/Song.png"
     },
     {
